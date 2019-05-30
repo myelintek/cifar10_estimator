@@ -426,7 +426,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--train-batch-size',
       type=int,
-      default=128,
+      default=stparams.get_value('train_bs', 128),
       help='Batch size for training.')
   parser.add_argument(
       '--eval-batch-size',
