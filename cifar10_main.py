@@ -379,6 +379,9 @@ def main(job_dir, data_dir, num_gpus, variable_strategy,
       intra_op_parallelism_threads=num_intra_threads,
       gpu_options=tf.GPUOptions(force_gpu_compatible=True))
 
+  sess_config.gpu_options.allow_growth = True
+  # run_config = tf.estimator.RunConfig().replace(session_config=session_config)
+
   config = cifar10_utils.RunConfig(
       session_config=sess_config, model_dir=job_dir)
   tf.contrib.learn.learn_runner.run(
@@ -506,8 +509,6 @@ if __name__ == '__main__':
       help='Epsilon for batch norm.')
   args = parser.parse_args()
 
-  if args.num_gpus > 0:
-    assert tf.test.is_gpu_available(), "Requested GPUs but none found."
   if args.num_gpus < 0:
     raise ValueError(
         'Invalid GPU count: \"--num-gpus\" must be 0 or a positive integer.')
